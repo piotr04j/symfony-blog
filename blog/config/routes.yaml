@@ -1,3 +1,22 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+homepage:
+    path: /
+    controller: App\Controller\HomepageController::index
+sing_up:
+    path: /sing-up
+    controller: App\Controller\AuthenticationController::singUp
+sing_in:
+    path: /sing-in
+    controller: App\Controller\AuthenticationController::singIn
+log_out:
+    path: /log-out
+    controller: App\Controller\AuthenticationController::logOut
+all_posts_list:
+    path: /posts
+    controller: App\Controller\PostsController::allPosts
+user_posts_list:
+    path: /my-posts
+    controller: App\Controller\PostsController::userPosts
+user_account:
+    path: /account
+    controller: App\Controller\UserController::userAccount
+
