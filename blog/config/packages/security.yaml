@@ -1,13 +1,29 @@
 security:
+    encoders:
+        Symfony\Component\Security\Core\User\User: plaintext
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        in_memory: { memory: null }
+        in_memory:
+            memory:
+                users:
+                    piotr04j:
+                        password: security
+                        roles: 'ROLE_USER'
+                    admin:
+                        password: password
+                        roles: 'ROLE_ADMIN'
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            anonymous: lazy
+            anonymous: true
+            form_login:
+                login_path: sing_in
+                check_path: sing_in
+            logout:
+                path: /log-out
+                target: /
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication

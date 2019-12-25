@@ -6,10 +6,10 @@ sing_up:
     controller: App\Controller\AuthenticationController::singUp
 sing_in:
     path: /sing-in
-    controller: App\Controller\AuthenticationController::singIn
+    controller: App\Controller\LoginController::singIn
 log_out:
     path: /log-out
-    controller: App\Controller\AuthenticationController::logOut
+    controller: App\Controller\LoginController::logOut
 all_posts_list:
     path: /posts
     controller: App\Controller\PostsController::allPosts

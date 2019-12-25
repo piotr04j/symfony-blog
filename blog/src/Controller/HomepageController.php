@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class HomepageController extends  AbstractController
+class HomepageController extends AbstractController
 {
     public function index()
     {
