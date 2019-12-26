@@ -3,7 +3,7 @@ homepage:
     controller: App\Controller\HomepageController::index
 sing_up:
     path: /sing-up
-    controller: App\Controller\AuthenticationController::singUp
+    controller: App\Controller\RegistrationController::singUp
 sing_in:
     path: /sing-in
     controller: App\Controller\LoginController::singIn
