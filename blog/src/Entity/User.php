@@ -32,16 +32,6 @@ class User implements UserInterface
      */
     private $password;
 
-    /**
-     * User constructor.
-     * @param string $usernames
-     * @param string $email
-     */
-    public function __construct(string $username, string $email) {
-        $this->username = $username;
-        $this->email = $email;
-    }
-
     public function getId(): ?int
     {
         return $this->id;
@@ -50,6 +40,7 @@ class User implements UserInterface
     public function getRoles() {
         return ['ROLE_USER'];
     }
+
     public function getPassword() : string {
         return $this->password;
     }
@@ -57,6 +48,15 @@ class User implements UserInterface
     public function getSalt() {
         // TODO: Implement getSalt() method.
     }
+
+    public function setUsername(string $username) {
+        $this->username = $username;
+    }
+
+    public function setEmail(string $email) {
+        $this->email = $email;
+    }
+
     public function getUsername() {
         return $this->username;
     }
