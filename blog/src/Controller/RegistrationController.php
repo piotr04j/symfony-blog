@@ -1,11 +1,10 @@
 <?php
 
-
 namespace App\Controller;
-
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Service\FormViolationsHandler;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,7 +21,8 @@ class RegistrationController extends AbstractController
         UserPasswordEncoderInterface $passwordEncoder,
         EntityManagerInterface $entityManager,
         Session $session,
-        ValidatorInterface $validator
+        ValidatorInterface $validator,
+        FormViolationsHandler $violationsHandler
     )
     {
         $form = $this->createForm(UserType::class);
@@ -31,17 +31,19 @@ class RegistrationController extends AbstractController
             $user = new User();
             $user->setUsername($form->get('username')->getData());
             $user->setEmail($form->get('email')->getData());
-            $password = $passwordEncoder->encodePassword($user, $form->get('password')->getData());
-            $user->setPassword($password);
+            $user->setPassword($form->get('password')->getData());
             try {
-                $errors = $validator->validate($user);
-                if (count($errors) > 0)
+                $errors =  $validator->validate($user);
+                if ($errors->count() > 0)
                 {
+                    $violationsMessages = $violationsHandler->getViolationMessages($errors);
                     return $this->render('authentication/register.html.twig', [
                         'form' => $form->createView(),
-                        'errors' => $errors
+                        'violationsMessages' => $violationsMessages
                     ]);
                 } else {
+                    $password = $passwordEncoder->encodePassword($user, $user->getPassword());
+                    $user->setPassword($password);
                     $entityManager->persist($user);
                     $entityManager->flush();
                     $session->getFlashBag()->add('success', sprintf('Account %s has been created!', $user->getUsername()));

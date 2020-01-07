@@ -4,7 +4,9 @@ App\Entity\User:
             - NotBlank: ~
             - Length:
                 min: 3
+                minMessage: 'Your username must be at least {{ limit }} characters long'
         email:
+            - NotBlank: ~
             - Email:
                 message: The email "{{ value }}" is not a valid email.
         password:
