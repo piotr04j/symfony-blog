@@ -33,7 +33,7 @@ class RegistrationController extends AbstractController
             $user->setEmail($form->get('email')->getData());
             $user->setPassword($form->get('password')->getData());
             try {
-                $errors =  $validator->validate($user);
+                $errors = $validator->validate($user);
                 if ($errors->count() > 0)
                 {
                     $violationsMessages = $violationsHandler->getViolationMessages($errors);
@@ -56,7 +56,7 @@ class RegistrationController extends AbstractController
         }
         return $this->render('authentication/register.html.twig', [
             'form' => $form->createView(),
-            'errors' => []
+            'violationsMessages' => []
         ]);
     }
 }
