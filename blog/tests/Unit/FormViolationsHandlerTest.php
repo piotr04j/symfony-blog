@@ -2,10 +2,8 @@
 
 namespace App\Tests\Unit;
 
-use App\Entity\User;
-use App\Service\FormViolationsHandler;
+use App\Services\FormViolationsHandler;
 use PHPUnit\Framework\TestCase;
-use stdClass;
 use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 
