@@ -41,7 +41,7 @@ class User implements UserInterface
         return ['ROLE_USER'];
     }
 
-    public function getPassword() : string {
+    public function getPassword() {
         return $this->password;
     }
 

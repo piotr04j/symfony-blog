@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
-use App\Service\FormViolationsHandler;
+use App\Services\FormViolationsHandler;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,13 +25,11 @@ class RegistrationController extends AbstractController
         FormViolationsHandler $violationsHandler
     )
     {
-        $form = $this->createForm(UserType::class);
+        $user = new User();
+        $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $user = new User();
-            $user->setUsername($form->get('username')->getData());
-            $user->setEmail($form->get('email')->getData());
-            $user->setPassword($form->get('password')->getData());
+        if ($form->isSubmitted()) {
+            $user = $form->getData();
             try {
                 $errors = $validator->validate($user);
                 if ($errors->count() > 0)
