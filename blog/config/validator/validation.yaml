@@ -10,7 +10,8 @@ App\Entity\User:
             - Email:
                 message: The email "{{ value }}" is not a valid email.
         password:
-            - NotBlank: ~
+            - NotBlank:
+                message: 'Passwords must be the same'
             - Length:
                 min: 3
                 minMessage: 'Your password must be at least {{ limit }} characters long'
