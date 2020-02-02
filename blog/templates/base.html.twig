@@ -11,6 +11,26 @@
               crossorigin="anonymous">
     </head>
     <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            {% if app.user %}
+                <a class="navbar-brand" href="#">{{ app.user.username }}</a>
+            {% endif %}
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    {% if app.user %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('log_out') }}">Logout</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('sing_in') }}">Login</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
         <div class="col-md-12">
             {% for type, messages in app.session.flashbag.all() %}
                 {% for message in messages %}

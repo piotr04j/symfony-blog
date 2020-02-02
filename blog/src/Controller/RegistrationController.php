@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Security\LoginFormAuthenticator;
 use App\Services\FormViolationsHandler;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
@@ -11,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class RegistrationController extends AbstractController
@@ -22,7 +24,9 @@ class RegistrationController extends AbstractController
         EntityManagerInterface $entityManager,
         Session $session,
         ValidatorInterface $validator,
-        FormViolationsHandler $violationsHandler
+        FormViolationsHandler $violationsHandler,
+        GuardAuthenticatorHandler $guardHandler,
+        LoginFormAuthenticator $authenticator
     )
     {
         $user = new User();
@@ -45,13 +49,19 @@ class RegistrationController extends AbstractController
                     $entityManager->persist($user);
                     $entityManager->flush();
                     $session->getFlashBag()->add('success', sprintf('Account %s has been created!', $user->getUsername()));
-                    return $this->redirectToRoute('homepage');
+                    return $guardHandler->authenticateUserAndHandleSuccess(
+                        $user,
+                        $request,
+                        $authenticator,
+                        'main'
+                    );
                 }
 
             } catch (UniqueConstraintViolationException $exception) {
                 $session->getFlashBag()->add('danger', 'Email and username has to be unique');
             }
         }
+
         return $this->render('authentication/register.html.twig', [
             'form' => $form->createView(),
             'violationsMessages' => []
