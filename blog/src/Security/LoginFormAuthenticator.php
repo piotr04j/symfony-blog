@@ -28,12 +28,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     private $csrfTokenManager;
     private $passwordEncoder;
 
-    public function __construct(
-        EntityManagerInterface $entityManager,
-        UrlGeneratorInterface $urlGenerator,
-        CsrfTokenManagerInterface $csrfTokenManager,
-        UserPasswordEncoderInterface $passwordEncoder
-    )
+    public function __construct(EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator, CsrfTokenManagerInterface $csrfTokenManager, UserPasswordEncoderInterface $passwordEncoder)
     {
         $this->entityManager = $entityManager;
         $this->urlGenerator = $urlGenerator;
@@ -43,20 +38,20 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     public function supports(Request $request)
     {
-        return 'app_login' === $request->attributes->get('_route')
+        return 'sing_in' === $request->attributes->get('_route')
             && $request->isMethod('POST');
     }
 
     public function getCredentials(Request $request)
     {
         $credentials = [
-            'email' => $request->request->get('email'),
+            'username' => $request->request->get('username'),
             'password' => $request->request->get('password'),
             'csrf_token' => $request->request->get('_csrf_token'),
         ];
         $request->getSession()->set(
             Security::LAST_USERNAME,
-            $credentials['email']
+            $credentials['username']
         );
 
         return $credentials;
@@ -69,11 +64,11 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
             throw new InvalidCsrfTokenException();
         }
 
-        $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $credentials['email']]);
+        $user = $this->entityManager->getRepository(User::class)->findOneBy(['username' => $credentials['username']]);
 
         if (!$user) {
             // fail authentication with a custom error
-            throw new CustomUserMessageAuthenticationException('Email could not be found.');
+            throw new CustomUserMessageAuthenticationException('username could not be found.');
         }
 
         return $user;
@@ -90,12 +85,11 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-
         return new RedirectResponse($this->urlGenerator->generate('homepage'));
     }
 
     protected function getLoginUrl()
     {
-        return $this->urlGenerator->generate('app_login');
+        return $this->urlGenerator->generate('sing_in');
     }
 }

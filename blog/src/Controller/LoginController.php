@@ -11,11 +11,17 @@ class LoginController extends AbstractController
 {
     public function singIn(Request $request, AuthenticationUtils $authenticationUtils): Response
     {
-        $errors = $authenticationUtils->getLastAuthenticationError();
+
+        if($this->isGranted('IS_AUTHENTICATED_FULLY'))
+        {
+            return $this->redirectToRoute('homepage');
+        }
+
+        $error = $authenticationUtils->getLastAuthenticationError();
         $username = $authenticationUtils->getLastUsername();
 
         return $this->render('authentication/login.html.twig', [
-            'errors' => $errors,
+            'error' => $error,
             'username' => $username
         ]);
     }

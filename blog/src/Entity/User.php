@@ -3,12 +3,13 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User implements UserInterface
+class User implements UserInterface, EquatableInterface
 {
     /**
      * @ORM\Id()
@@ -72,5 +73,15 @@ class User implements UserInterface
      */
     public function setPassword(string $password) {
         $this->password = $password;
+    }
+
+    public function isEqualTo(UserInterface $user)
+    {
+
+        if ($this->username !== $user->getUsername()) {
+            return false;
+        }
+
+        return true;
     }
 }
