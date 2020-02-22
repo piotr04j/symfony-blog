@@ -16,5 +16,10 @@
         <li>
             <a href="/posts">Show all posts</a>
         </li>
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+            <li>
+                <a class="link" href="{{ path('user_account') }}">account</a>
+            </li>
+        {% endif %}
     </ul>
 {% endblock %}

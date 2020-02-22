@@ -1,10 +1,17 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Blog
+    Account
 {% endblock %}
 
 {% block body %}
-    <h1>Your account</h1>
+    <h1>Your account:</h1>
     {{ form(form) }}
+    {% for post in posts %}
+        <li>
+            <h2>{{ post.title }}</h2>
+            <p>{{ post.content }}</p>
+            <a href="/remove/{{ post.id }}">DELETE</a>
+        </li>
+    {% endfor %}
 {% endblock %}

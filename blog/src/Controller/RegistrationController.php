@@ -48,7 +48,7 @@ class RegistrationController extends AbstractController
                     $user->setPassword($password);
                     $entityManager->persist($user);
                     $entityManager->flush();
-                    $session->set('user', $user->getUsername());
+                    $session->set('_security.last_username', $user->getUsername());
                     $session->getFlashBag()->add('success', sprintf('Account %s has been created!', $user->getUsername()));
                     return $guardHandler->authenticateUserAndHandleSuccess(
                         $user,

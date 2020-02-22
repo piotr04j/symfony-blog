@@ -14,9 +14,9 @@ log_out:
 all_posts_list:
     path: /posts
     controller: App\Controller\PostsController::allPosts
-user_posts_list:
-    path: /my-posts
-    controller: App\Controller\PostsController::userPosts
+remove_post:
+    path: /remove/{postID}
+    controller: App\Controller\PostsController::removePost
 user_account:
     path: /account
     controller: App\Controller\UserAccountController::index

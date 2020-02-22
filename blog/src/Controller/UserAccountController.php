@@ -21,23 +21,27 @@ class UserAccountController extends AbstractController
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
 
+        $username= $request->getSession()->get('_security.last_username');
+        $userRepository = $this->getDoctrine()
+            ->getRepository(User::class);
+        $user = $userRepository->findOneBy(['username' => $username]);
+        $userID = $user->getId();
+
         if ($form->isSubmitted()) {
-            $username= $request->getSession()->get('_security.last_username');
-            $userRepository = $this->getDoctrine()
-                ->getRepository(User::class);
-            $user = $userRepository->findOneBy(['username' => $username]);
-            $userID = $user->getId();
             $post = $form->getData();
             $post->setAuthorId($userID);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($post);
             $entityManager->flush();
-
-            return $this->redirectToRoute('homepage');
+            return $this->redirectToRoute('all_posts_list');
         }
 
+        $postRepository = $this->getDoctrine()
+            ->getRepository(Post::class);
+        $posts = $postRepository->findBy(['author_id' => $userID]);
         return $this->render('account/account.html.twig', [
             'form' => $form->createView(),
+            'posts' => $posts
         ]);
     }
 }
