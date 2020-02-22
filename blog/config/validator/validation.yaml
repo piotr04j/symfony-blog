@@ -15,3 +15,9 @@ App\Entity\User:
             - Length:
                 min: 3
                 minMessage: 'Your password must be at least {{ limit }} characters long'
+App\Entity\Post:
+    properties:
+        title:
+            - NotBlank: ~
+        content:
+            - NotBlank: ~

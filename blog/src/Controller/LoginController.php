@@ -9,7 +9,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class LoginController extends AbstractController
 {
-    public function singIn(Request $request, AuthenticationUtils $authenticationUtils): Response
+    public function signIn(Request $request, AuthenticationUtils $authenticationUtils): Response
     {
 
         if($this->isGranted('IS_AUTHENTICATED_FULLY'))

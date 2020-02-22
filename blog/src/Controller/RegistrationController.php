@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class RegistrationController extends AbstractController
 {
-    public function singUp
+    public function signUp
     (
         Request $request,
         UserPasswordEncoderInterface $passwordEncoder,
@@ -48,6 +48,7 @@ class RegistrationController extends AbstractController
                     $user->setPassword($password);
                     $entityManager->persist($user);
                     $entityManager->flush();
+                    $session->set('user', $user->getUsername());
                     $session->getFlashBag()->add('success', sprintf('Account %s has been created!', $user->getUsername()));
                     return $guardHandler->authenticateUserAndHandleSuccess(
                         $user,

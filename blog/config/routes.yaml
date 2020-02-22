@@ -2,11 +2,11 @@ homepage:
     path: /
     controller: App\Controller\HomepageController::index
 sing_up:
-    path: /sing-up
-    controller: App\Controller\RegistrationController::singUp
+    path: /sign-up
+    controller: App\Controller\RegistrationController::signUp
 sing_in:
-    path: /sing-in
-    controller: App\Controller\LoginController::singIn
+    path: /sign-in
+    controller: App\Controller\LoginController::signIn
     methods: GET|POST
 log_out:
     path: /log-out
@@ -19,5 +19,4 @@ user_posts_list:
     controller: App\Controller\PostsController::userPosts
 user_account:
     path: /account
-    controller: App\Controller\UserController::userAccount
-
+    controller: App\Controller\UserAccountController::index
